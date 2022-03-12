@@ -188,8 +188,8 @@ function move() {
             moveUp(snake);
             break;
     }
-    moveBody(snake);
-    if (!checkCollision([snake])) {
+    moveBody(snake); 
+    if (!checkCollision([snake])) { // ini yang di fix
         setTimeout(function() {
             move(snake);
         }, MOVE_INTERVAL);
