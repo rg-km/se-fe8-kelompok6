@@ -9,7 +9,7 @@ const DIRECTION = {
     UP: 2,
     DOWN: 3,
 }
-const MOVE_INTERVAL = 100;
+const MOVE_INTERVAL = 60;
 
 function initPosition() {
     return {
@@ -41,16 +41,25 @@ function initSnake(color) {
 }
 let snake = initSnake("purple");
 
+
 let apple1 = {
-    position: initPosition(),
-}
-let apple2 = {
+    color: "red",
     position: initPosition(),
 }
 
-function drawCell(ctx, x, y, color) {
-    ctx.fillStyle = color;
-    ctx.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+let apple2 = {
+    color: "red",
+    position: initPosition(),
+}
+
+function drawCell(ctx, x, y) {
+    let img = document.getElementById('snake-head');
+    ctx.drawImage(img, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+}
+
+function drawCellBody(ctx, x, y) {
+    let img = document.getElementById('snake-body');
+    ctx.drawImage(img, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 }
 
 function drawApple(ctx, x, y) {
@@ -60,15 +69,15 @@ function drawApple(ctx, x, y) {
 
 function drawScore() {
     let scoreCanvas;
-    scoreCanvas = document.getElementById("scoreBoard");
+    scoreCanvas = document.getElementById("score1Board");
     let scoreCtx = scoreCanvas.getContext("2d");
 
     scoreCtx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
     scoreCtx.font = "40px Arial";
-    scoreCtx.fillStyle = snake1.color
+    scoreCtx.fillStyle = snake.color
     scoreCtx.fillText("SCORE", scoreCanvas.scrollWidth /4, scoreCanvas.scrollHeight / 3.5);
     scoreCtx.font = "36px Arial";
-    scoreCtx.fillText(snake1.score, scoreCanvas.scrollWidth /2.2, scoreCanvas.scrollHeight / 1.5);
+    scoreCtx.fillText(snake.score, scoreCanvas.scrollWidth /2.2, scoreCanvas.scrollHeight / 1.5);
 }
 
 function drawSpeed(snake){
@@ -93,7 +102,7 @@ function draw() {
         
         drawCell(ctx, snake.head.x, snake.head.y, snake.color);
         for (let i = 1; i < snake.body.length; i++) {
-            drawCell(ctx, snake.body[i].x, snake.body[i].y, snake.color);
+            drawCellBody(ctx, snake.body[i].x, snake.body[i].y, snake.color);
         }
         drawApple(ctx, apple1.position.x, apple1.position.y, apple1.color);
         drawApple(ctx, apple2.position.x, apple2.position.y, apple2.color);
@@ -105,7 +114,7 @@ function draw() {
     }, REDRAW_INTERVAL);
 }
 
-function teleport(snake) {
+function teleport() {
     if (snake.head.x < 0) {
         snake.head.x = CANVAS_SIZE / CELL_SIZE - 1;
     }
@@ -239,13 +248,23 @@ document.addEventListener("keydown", function (event) {
     }
 
     if (event.key === "a") {
-        turn(snake, DIRECTION.LEFT);
+        turn(snake2, DIRECTION.LEFT);
     } else if (event.key === "d") {
-        turn(snake, DIRECTION.RIGHT);
+        turn(snake2, DIRECTION.RIGHT);
     } else if (event.key === "w") {
-        turn(snake, DIRECTION.UP);
+        turn(snake2, DIRECTION.UP);
     } else if (event.key === "s") {
-        turn(snake, DIRECTION.DOWN);
+        turn(snake2, DIRECTION.DOWN);
+    }
+
+    if (event.key === "j") {
+        turn(snake3, DIRECTION.LEFT);
+    } else if (event.key === "l") {
+        turn(snake3, DIRECTION.RIGHT);
+    } else if (event.key === "i") {
+        turn(snake3, DIRECTION.UP);
+    } else if (event.key === "k") {
+        turn(snake3, DIRECTION.DOWN);
     }
 })
 
