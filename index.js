@@ -11,6 +11,22 @@ const DIRECTION = {
 }
 const MOVE_INTERVAL = 100;
 
+function initPosi(){
+    return{
+        x: 0,
+        y: 0,
+    } 
+} 
+
+
+
+function initLifebar(){
+    return{
+        ...initLifeBarCheck(),
+    
+    }
+}
+
 function initPosition() {
     return {
         x: Math.floor(Math.random() * WIDTH),
@@ -22,6 +38,14 @@ function initHeadAndBody() {
     let head = initPosition();
     let body = [{x: head.x, y: head.y}];
     return {
+        head: head,
+        body: body,
+    }
+}
+function initLifeBarCheck(){
+    let head = initPosi();
+    let body = [{x: head.x, y: head.y}];
+    return{
         head: head,
         body: body,
     }
@@ -52,6 +76,11 @@ let apple2 = {
     position: initPosition(),
 }
 
+let lifebar = initLifebar();
+
+let lifeIcon = {
+    position: initPosition()
+}
 function drawCell(ctx, x, y) {
     let img = document.getElementById('snake-head');
     ctx.drawImage(img, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
@@ -67,6 +96,16 @@ function drawApple(ctx, x, y) {
 	ctx.drawImage(img, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 }
 
+function drawLifeBar(ctx, x, y){
+    let img = document.getElementById('lifebar');
+    ctx.drawImage(img, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+}
+
+function drawLifeIcon(ctx, x, y){
+    let img = document.getElementById('lifebar');
+    ctx.drawImage(img, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+}
+
 function drawScore() {
     let scoreCanvas;
     scoreCanvas = document.getElementById("score1Board");
@@ -78,6 +117,12 @@ function drawScore() {
     scoreCtx.fillText("SCORE", scoreCanvas.scrollWidth /4, scoreCanvas.scrollHeight / 3.5);
     scoreCtx.font = "28px Arial";
     scoreCtx.fillText(snake.score, scoreCanvas.scrollWidth /2.2, scoreCanvas.scrollHeight / 1.5);
+}
+function isPrime(num) {
+    for (let i = 2; i * i <= num; i++)
+        if (num % i === 0)
+          return false; 
+    return num > 1;
 }
 
 function drawSpeed(snake){
@@ -109,6 +154,17 @@ function draw() {
 
         drawScore(snake);
         drawSpeed(snake);
+
+        drawLifeBar(ctx,lifebar.head.x, lifebar.head.y);
+        drawLifeBar(ctx,lifebar.head.x + 1, lifebar.head.y);
+        drawLifeBar(ctx,lifebar.head.x + 2, lifebar.head.y);
+        for (let i = 1; i < lifebar.body.length ; i++){
+            drawLifeBar(ctx, lifebar.body[i].x, lifebar.body[i].y)
+        }
+
+        if(isPrime(snake.score)){
+            drawLifeIcon(ctx, lifeIcon.x, lifeIcon.y);
+        }
 
         setTimeout
     }, REDRAW_INTERVAL);
