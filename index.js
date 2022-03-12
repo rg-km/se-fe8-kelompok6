@@ -36,7 +36,7 @@ function initSnake(color) {
         color: color,
         ...initHeadAndBody(),
         direction: initDirection(),
-        score: 0,
+        score: 0
     }
 }
 let snake1 = initSnake("purple");
@@ -80,6 +80,16 @@ function drawScore(snake) {
     scoreCtx.fillText(snake.score, 10, scoreCanvas.scrollHeight / 2);
 }
 
+function drawSpeed(snake){
+    let speedCanvas = document.getElementById("speedBoard");
+    let speedCtx = speedCanvas.getContext("2d");
+
+    speedCtx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+    speedCtx.font = "16px Arial";
+    speedCtx.fillStyle = 'black';
+    speedCtx.fillText(MOVE_INTERVAL + " km/h", 10, speedCanvas.scrollHeight / 2);
+}
+
 function draw() {
     setInterval(function() {
         let snakeCanvas = document.getElementById("snakeBoard");
@@ -106,6 +116,8 @@ function draw() {
         drawScore(snake1);
         drawScore(snake2);
         drawScore(snake3);
+        
+        drawSpeed(snake1);
     }, REDRAW_INTERVAL);
 }
 
@@ -160,6 +172,7 @@ function moveUp(snake) {
     eat(snake, apple2);
 }
 
+// collision function
 function checkCollision(snakes) {
     let isCollide = false;
     for (let i = 0; i < snakes.length; i++) {
@@ -182,6 +195,7 @@ function checkCollision(snakes) {
     return isCollide;
 }
 
+// control snake function
 function move(snake) {
     switch (snake.direction) {
         case DIRECTION.LEFT:
