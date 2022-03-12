@@ -1,5 +1,5 @@
 const CELL_SIZE = 20;
-const CANVAS_SIZE = 600;
+const CANVAS_SIZE = 800;
 const REDRAW_INTERVAL = 50;
 const WIDTH = CANVAS_SIZE / CELL_SIZE;
 const HEIGHT = CANVAS_SIZE / CELL_SIZE;
@@ -64,19 +64,24 @@ function drawScore() {
     let scoreCtx = scoreCanvas.getContext("2d");
 
     scoreCtx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-    scoreCtx.font = "30px Arial";
-    scoreCtx.fillStyle = snake.color
-    scoreCtx.fillText(snake.score, 10, scoreCanvas.scrollHeight / 2);
+    scoreCtx.font = "40px Arial";
+    scoreCtx.fillStyle = snake1.color
+    scoreCtx.fillText("SCORE", scoreCanvas.scrollWidth /4, scoreCanvas.scrollHeight / 3.5);
+    scoreCtx.font = "36px Arial";
+    scoreCtx.fillText(snake1.score, scoreCanvas.scrollWidth /2.2, scoreCanvas.scrollHeight / 1.5);
 }
 
 function drawSpeed(snake){
     let speedCanvas = document.getElementById("speedBoard");
     let speedCtx = speedCanvas.getContext("2d");
-
+    
     speedCtx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-    speedCtx.font = "16px Arial";
+    speedCtx.font = "40px Arial";
     speedCtx.fillStyle = 'black';
-    speedCtx.fillText(MOVE_INTERVAL + " km/h", 10, speedCanvas.scrollHeight / 2);
+    // speedCtx.textAlign = "start";
+    speedCtx.fillText("SPEED", speedCanvas.scrollWidth /4, speedCanvas.scrollHeight / 3.5);
+    speedCtx.font = "32px Arial";
+    speedCtx.fillText(MOVE_INTERVAL + " ms", speedCanvas.scrollWidth /3, speedCanvas.scrollHeight / 1.5);
 }
 
 function draw() {
