@@ -18,6 +18,13 @@ function initPosition() {
     }
 }
 
+function blankPosition(){
+    return{
+        x: -1,
+        y: -1,
+    }
+}
+
 function initHeadAndBody() {
     let head = initPosition();
     let body = [{x: head.x, y: head.y}];
@@ -41,6 +48,9 @@ function initSnake(color) {
 }
 let snake = initSnake("purple");
 
+let live = {
+    position: initPosition(),
+}
 
 let apple1 = {
     color: "red",
@@ -65,6 +75,11 @@ function drawCellBody(ctx, x, y) {
 function drawApple(ctx, x, y) {
 	let img = document.getElementById('apple');
 	ctx.drawImage(img, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+}
+
+function drawLive(ctx, x, y){
+	let img = document.getElementById('livee');
+	ctx.drawImage(img, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);   
 }
 
 function drawScore() {
@@ -92,6 +107,12 @@ function drawSpeed(snake){
     speedCtx.font = "32px Arial";
     speedCtx.fillText(MOVE_INTERVAL + " ms", speedCanvas.scrollWidth /3, speedCanvas.scrollHeight / 1.5);
 }
+function isPrime(num) {
+    for (let i = 2; i * i <= num; i++)
+        if (num % i === 0)
+          return false; 
+    return num > 1;
+}
 
 function draw() {
     setInterval(function() {
@@ -106,6 +127,11 @@ function draw() {
         }
         drawApple(ctx, apple1.position.x, apple1.position.y, apple1.color);
         drawApple(ctx, apple2.position.x, apple2.position.y, apple2.color);
+
+        if(isPrime(snake.score) == true){
+            drawLive(ctx, live.position.x, live.position.y);
+        }
+        
 
         drawScore(snake);
         drawSpeed(snake);
@@ -134,6 +160,22 @@ function eat(snake, apple) {
         apple.position = initPosition();
         snake.score++;
         snake.body.push({x: snake.head.x, y: snake.head.y});
+    }
+
+    if(snake.head.x == live.position.x && snake.head.y == live.position.y){
+        let liveCheck = true;
+        
+        if(liveCheck){
+            live.position = initPosition();
+            liveCheck = false;
+            console.log("spawn");
+
+        }
+        if(liveCheck == false){
+            live.position = blankPosition();
+            liveCheck = true;
+            console.log("hidden");
+        }
     }
 }
 
