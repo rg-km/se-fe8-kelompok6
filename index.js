@@ -130,6 +130,7 @@ function draw() {
 
         if(isPrime(snake.score) == true){
             drawLive(ctx, live.position.x, live.position.y);
+            eatLive();
         }
         
 
@@ -161,22 +162,21 @@ function eat(snake, apple) {
         snake.score++;
         snake.body.push({x: snake.head.x, y: snake.head.y});
     }
+}
 
-    if(snake.head.x == live.position.x && snake.head.y == live.position.y){
-        let liveCheck = true;
-        
-        if(liveCheck){
+function eatLive(){
+    liveEaten = false;
+    if (snake.head.x == live.position.x && snake.head.y == live.position.y){
+        if(liveEaten == false){
             live.position = initPosition();
-            liveCheck = false;
-            console.log("spawn");
-
-        }
-        if(liveCheck == false){
+            liveEaten = true;
+            console.log(liveEaten);
+        }else{
             live.position = blankPosition();
-            liveCheck = true;
-            console.log("hidden");
+            console.log("berhasil");
         }
     }
+
 }
 
 function moveLeft(snake) {
@@ -184,6 +184,7 @@ function moveLeft(snake) {
     teleport(snake);
     eat(snake, apple1);
     eat(snake, apple2);
+
 }
 
 function moveRight(snake) {
@@ -191,6 +192,7 @@ function moveRight(snake) {
     teleport(snake);
     eat(snake, apple1);
     eat(snake, apple2);
+
 }
 
 function moveDown(snake) {
@@ -198,6 +200,7 @@ function moveDown(snake) {
     teleport(snake);
     eat(snake, apple1);
     eat(snake, apple2);
+
 }
 
 function moveUp(snake) {
@@ -205,6 +208,7 @@ function moveUp(snake) {
     teleport(snake);
     eat(snake, apple1);
     eat(snake, apple2);
+
 }
 
 // collision function
