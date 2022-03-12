@@ -202,8 +202,10 @@ function move() {
             moveUp(snake1);
             break;
     }
-    moveBody();
-    if (!checkCollision(snake1)) {
+    moveBody(snake); 
+    if (!checkCollision([snake])) {
+    moveBody(snake);
+    if (!checkCollision([snake1])) {
         setTimeout(function() {
             move(snake1);
         }, MOVE_INTERVAL);
