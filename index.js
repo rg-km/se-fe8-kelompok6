@@ -162,7 +162,7 @@ function draw() {
             drawLifeBar(ctx, lifebar.body[i].x, lifebar.body[i].y)
         }
 
-        if(isPrime(snake.score)){
+        if(isPrime(snake.score) == true){
             drawLifeIcon(ctx, lifeIcon.x, lifeIcon.y);
         }
 
