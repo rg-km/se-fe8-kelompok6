@@ -11,6 +11,8 @@ const DIRECTION = {
 }
 const MOVE_INTERVAL = 100;
 
+let score2 = 0;
+
 function initPosi(){
     return{
         x: 0,
@@ -31,6 +33,13 @@ function initPosition() {
     return {
         x: Math.floor(Math.random() * WIDTH),
         y: Math.floor(Math.random() * HEIGHT),
+    }
+}
+
+function blankPosition(){
+    return{
+        x: -1,
+        y: -1
     }
 }
 
@@ -61,6 +70,7 @@ function initSnake(color) {
         ...initHeadAndBody(),
         direction: initDirection(),
         score: 0
+        
     }
 }
 let snake = initSnake("purple");
@@ -116,7 +126,7 @@ function drawScore() {
     scoreCtx.fillStyle = snake.color
     scoreCtx.fillText("SCORE", scoreCanvas.scrollWidth /4, scoreCanvas.scrollHeight / 3.5);
     scoreCtx.font = "28px Arial";
-    scoreCtx.fillText(snake.score, scoreCanvas.scrollWidth /2.2, scoreCanvas.scrollHeight / 1.5);
+    scoreCtx.fillText(score2, scoreCanvas.scrollWidth /2.2, scoreCanvas.scrollHeight / 1.5);
 }
 function isPrime(num) {
     for (let i = 2; i * i <= num; i++)
@@ -139,6 +149,7 @@ function drawSpeed(snake){
 }
 lifebar.body.push({x: lifebar.head.x , y: lifebar.head.y});
 lifebar.body.push({x: lifebar.head.x , y: lifebar.head.y});
+
 function draw() {
     setInterval(function() {
         let snakeCanvas = document.getElementById("snakeBoard");
@@ -157,18 +168,21 @@ function draw() {
         drawSpeed(snake);
 
         drawLifeBar(ctx,lifebar.head.x, lifebar.head.y);
-        console.log(lifebar.body.length);
+
         for (let i = 1; i < lifebar.body.length ; i++){
             drawLifeBar(ctx, lifebar.body[i].x + i, lifebar.body[i].y)
         }
 
-        if(isPrime(snake.score) == true){
+        if(isPrime(score2) == true){
+            
             drawLifeIcon(ctx, lifeIcon.position.x, lifeIcon.position.y);
+           
         }
 
         setTimeout
     }, REDRAW_INTERVAL);
 }
+
 
 function teleport() {
     if (snake.head.x < 0) {
@@ -188,24 +202,30 @@ function teleport() {
 function eat(snake, apple) {
     if (snake.head.x == apple.position.x && snake.head.y == apple.position.y) {
         apple.position = initPosition();
-        snake.score++;
+        score2++;
         snake.body.push({x: snake.head.x, y: snake.head.y});
-    }
-}
-
-function eatLife(){
-    if(snake.head.x == lifeIcon.position.x && snake.head.y == lifeIcon.position.y){
         lifeIcon.position = initPosition();
+    }
+    if(snake.head.x == lifeIcon.position.x && snake.head.y == lifeIcon.position.y){
+        lifeIcon.position = blankPosition();
         lifebar.body.push({x: lifebar.head.x , y: lifebar.head.y});
     }
 }
+
+
+
+
+
+
+
 
 function moveLeft(snake) {
     snake.head.x--;
     teleport(snake);
     eat(snake, apple1);
     eat(snake, apple2);
-    eatLife();
+
+
 }
 
 function moveRight(snake) {
@@ -213,7 +233,9 @@ function moveRight(snake) {
     teleport(snake);
     eat(snake, apple1);
     eat(snake, apple2);
-    eatLife();
+
+
+
 }
 
 function moveDown(snake) {
@@ -221,7 +243,9 @@ function moveDown(snake) {
     teleport(snake);
     eat(snake, apple1);
     eat(snake, apple2);
-    eatLife();
+
+
+
 }
 
 function moveUp(snake) {
@@ -229,7 +253,9 @@ function moveUp(snake) {
     teleport(snake);
     eat(snake, apple1);
     eat(snake, apple2);
-    eatLife();
+
+
+
 }
 
 // collision function
@@ -245,12 +271,23 @@ function checkCollision(snakes) {
         }
     }
     if (isCollide) {
-        var audio = new Audio('gameover.mp3');
-        audio.play();
-        alert("Game Over");
         snake = initSnake("purple");
+        lifebar.body.length-=1;
+        if(lifebar.body.length == 0){
+            gameOver();
+            alert("Game Over");
+        }
     }
     return isCollide;
+}
+
+function gameOver(){
+    var audio = new Audio('assets/gameover.mp3');
+    audio.play();
+    lifebar.body.push({x: lifebar.head.x , y: lifebar.head.y});
+    lifebar.body.push({x: lifebar.head.x , y: lifebar.head.y});
+    lifebar.body.push({x: lifebar.head.x , y: lifebar.head.y});
+    score2 = 0;
 }
 
 
