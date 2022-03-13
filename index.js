@@ -47,7 +47,7 @@ function initLifeBarCheck(){
     let body = [{x: head.x, y: head.y}];
     return{
         head: head,
-        body: body,
+        body: body
     }
 }
 
@@ -137,7 +137,8 @@ function drawSpeed(snake){
     speedCtx.font = "28px Arial";
     speedCtx.fillText(MOVE_INTERVAL + " ms", speedCanvas.scrollWidth /4, speedCanvas.scrollHeight / 1.5);
 }
-
+lifebar.body.push({x: lifebar.head.x , y: lifebar.head.y});
+lifebar.body.push({x: lifebar.head.x , y: lifebar.head.y});
 function draw() {
     setInterval(function() {
         let snakeCanvas = document.getElementById("snakeBoard");
@@ -156,14 +157,13 @@ function draw() {
         drawSpeed(snake);
 
         drawLifeBar(ctx,lifebar.head.x, lifebar.head.y);
-        drawLifeBar(ctx,lifebar.head.x + 1, lifebar.head.y);
-        drawLifeBar(ctx,lifebar.head.x + 2, lifebar.head.y);
+        console.log(lifebar.body.length);
         for (let i = 1; i < lifebar.body.length ; i++){
-            drawLifeBar(ctx, lifebar.body[i].x, lifebar.body[i].y)
+            drawLifeBar(ctx, lifebar.body[i].x + i, lifebar.body[i].y)
         }
 
         if(isPrime(snake.score) == true){
-            drawLifeIcon(ctx, lifeIcon.x, lifeIcon.y);
+            drawLifeIcon(ctx, lifeIcon.position.x, lifeIcon.position.y);
         }
 
         setTimeout
@@ -193,11 +193,19 @@ function eat(snake, apple) {
     }
 }
 
+function eatLife(){
+    if(snake.head.x == lifeIcon.position.x && snake.head.y == lifeIcon.position.y){
+        lifeIcon.position = initPosition();
+        lifebar.body.push({x: lifebar.head.x , y: lifebar.head.y});
+    }
+}
+
 function moveLeft(snake) {
     snake.head.x--;
     teleport(snake);
     eat(snake, apple1);
     eat(snake, apple2);
+    eatLife();
 }
 
 function moveRight(snake) {
@@ -205,6 +213,7 @@ function moveRight(snake) {
     teleport(snake);
     eat(snake, apple1);
     eat(snake, apple2);
+    eatLife();
 }
 
 function moveDown(snake) {
@@ -212,6 +221,7 @@ function moveDown(snake) {
     teleport(snake);
     eat(snake, apple1);
     eat(snake, apple2);
+    eatLife();
 }
 
 function moveUp(snake) {
@@ -219,6 +229,7 @@ function moveUp(snake) {
     teleport(snake);
     eat(snake, apple1);
     eat(snake, apple2);
+    eatLife();
 }
 
 // collision function
