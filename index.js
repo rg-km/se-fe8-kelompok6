@@ -12,7 +12,7 @@ const DIRECTION = {
 var MOVE_INTERVAL = [150, 120, 100, 80, 70];
 var currentLevel = 0;
 
-let score2 = 20;
+let score2 = 0;
 
 function initPosi(){
     return{
