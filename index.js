@@ -91,6 +91,15 @@ let lifebar = initLifebar();
 let lifeIcon = {
     position: initPosition()
 }
+let positionObstcale = [
+    { x: 3, y: Math.floor(HEIGHT * 1 / 4) },//posisi lvl 2
+    { x: 3, y: Math.floor(HEIGHT * 3 / 4) },//posisi lvl 3
+    { x: 3, y: Math.floor(HEIGHT * 2 / 4) },//posisi lvl 4
+    { x: 0, y: 0 },//posisi lvl 5
+    { x: 24, y: 0 },//posisi lvl 5
+    { x: 0, y: 0 },//posisi lvl 5
+    { x: 0, y: 24 },//posisi lvl 5
+];
 function drawCell(ctx, x, y) {
     let img = document.getElementById('snake-head');
     ctx.drawImage(img, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
@@ -164,6 +173,8 @@ function draw() {
         drawApple(ctx, apple1.position.x, apple1.position.y, apple1.color);
         drawApple(ctx, apple2.position.x, apple2.position.y, apple2.color);
 
+        checkLevel(snake, ctx);
+
         drawScore(snake);
         drawSpeed(snake);
 
@@ -183,6 +194,10 @@ function draw() {
     }, REDRAW_INTERVAL);
 }
 
+function drawHorizontal(ctx, x, y, width, height) {
+    ctx.fillStyle = "Black";
+    ctx.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE * width, CELL_SIZE * height);
+}
 
 function teleport() {
     if (snake.head.x < 0) {
@@ -212,11 +227,57 @@ function eat(snake, apple) {
     }
 }
 
+let levelUp = true;
+function checkLevel(snake, ctx) {
+    let textLevel = document.getElementById("leveling");
+    if (score2 < 5) {
+        //level 1
+        textLevel.textContent = "1";
+        currentLevel = 0;
 
+    } else if (score2 < 10) {
+        //level 2
+        textLevel.textContent = "2";
+        drawHorizontal(ctx, positionObstcale[0].x, positionObstcale[0].y, 20, 1);
+        currentLevel = 1;
+        if (levelUp) {
+            levelUp = false;
+        }
+    } else if (score2 < 15) {
+        //level 3
+        textLevel.textContent = "3";
+        drawHorizontal(ctx, positionObstcale[0].x, positionObstcale[0].y, 20, 1);
+        drawHorizontal(ctx, positionObstcale[1].x, positionObstcale[1].y, 20, 1);
+        currentLevel = 2;
+        if (!levelUp) {
+            levelUp = true;
+        }
 
+    } else if (score2 < 20) {
+        //level 4
+        textLevel.textContent = "4";
+        drawHorizontal(ctx, positionObstcale[0].x, positionObstcale[0].y, 20, 1);
+        drawHorizontal(ctx, positionObstcale[1].x, positionObstcale[1].y, 20, 1);
+        drawHorizontal(ctx, positionObstcale[2].x, positionObstcale[2].y, 20, 1);
+        currentLevel = 3;
+        if (levelUp) {
+            levelUp = false;
+        }
 
+    } else {
+        //level 5
+        textLevel.textContent = "5";
+        drawHorizontal(ctx, positionObstcale[3].x, positionObstcale[3].y, 1, 40);
+        drawHorizontal(ctx, positionObstcale[4].x, positionObstcale[4].y, 1, 40);
+        drawHorizontal(ctx, positionObstcale[5].x, positionObstcale[5].y, 40, 1);
+        drawHorizontal(ctx, positionObstcale[6].x, positionObstcale[6].y, 40, 1);
+        currentLevel = 4;
+        if (!levelUp) {
+            levelUp = true;
+        }
+    }
 
-
+}
 
 
 function moveLeft(snake) {
@@ -224,7 +285,7 @@ function moveLeft(snake) {
     teleport(snake);
     eat(snake, apple1);
     eat(snake, apple2);
-
+    console.log(snake.head.y);
 
 }
 
@@ -233,7 +294,7 @@ function moveRight(snake) {
     teleport(snake);
     eat(snake, apple1);
     eat(snake, apple2);
-
+    console.log(snake.head.y);
 
 
 }
@@ -243,7 +304,7 @@ function moveDown(snake) {
     teleport(snake);
     eat(snake, apple1);
     eat(snake, apple2);
-
+    console.log(snake.head.y);
 
 
 }
@@ -253,7 +314,7 @@ function moveUp(snake) {
     teleport(snake);
     eat(snake, apple1);
     eat(snake, apple2);
-
+    console.log(snake.head.y);
 
 
 }
