@@ -9,9 +9,10 @@ const DIRECTION = {
     UP: 2,
     DOWN: 3,
 }
-const MOVE_INTERVAL = 100;
+var MOVE_INTERVAL = [150, 120, 100, 80, 70];
+var currentLevel = 0;
 
-let score2 = 0;
+let score2 = 20;
 
 function initPosi(){
     return{
@@ -91,14 +92,16 @@ let lifebar = initLifebar();
 let lifeIcon = {
     position: initPosition()
 }
-let positionObstcale = [
-    { x: 3, y: Math.floor(HEIGHT * 1 / 4) },//posisi lvl 2
-    { x: 3, y: Math.floor(HEIGHT * 3 / 4) },//posisi lvl 3
-    { x: 3, y: Math.floor(HEIGHT * 2 / 4) },//posisi lvl 4
-    { x: 0, y: 0 },//posisi lvl 5
-    { x: 24, y: 0 },//posisi lvl 5
-    { x: 0, y: 0 },//posisi lvl 5
-    { x: 0, y: 24 },//posisi lvl 5
+let positionObstacle = [
+    { x: 3, y: Math.floor(HEIGHT * 1 / 4) }, // lvl 2
+    { x: 3, y: Math.floor(HEIGHT * 3 / 4) }, // lvl 3
+    { x: 3, y: Math.floor(HEIGHT * 2 / 4) }, // lvl 4
+    
+    // lvl 5
+    { x: 0, y: Math.floor(HEIGHT * 1 / 4) }, 
+    { x: 0, y: Math.floor(HEIGHT * 3 / 4) }, 
+    { x: 5, y: Math.floor(HEIGHT * 2 / 4) }, 
+    
 ];
 function drawCell(ctx, x, y) {
     let img = document.getElementById('snake-head');
@@ -154,7 +157,7 @@ function drawSpeed(snake){
     // speedCtx.textAlign = "start";
     speedCtx.fillText("SPEED", speedCanvas.scrollWidth /3.8, speedCanvas.scrollHeight / 3.5);
     speedCtx.font = "28px Arial";
-    speedCtx.fillText(MOVE_INTERVAL + " ms", speedCanvas.scrollWidth /4, speedCanvas.scrollHeight / 1.5);
+    speedCtx.fillText(MOVE_INTERVAL[currentLevel] + " ms", speedCanvas.scrollWidth /4, speedCanvas.scrollHeight / 1.5);
 }
 lifebar.body.push({x: lifebar.head.x , y: lifebar.head.y});
 lifebar.body.push({x: lifebar.head.x , y: lifebar.head.y});
@@ -238,16 +241,17 @@ function checkLevel(snake, ctx) {
     } else if (score2 < 10) {
         //level 2
         textLevel.textContent = "2";
-        drawHorizontal(ctx, positionObstcale[0].x, positionObstcale[0].y, 20, 1);
+        drawHorizontal(ctx, positionObstacle[0].x, positionObstacle[0].y, 20, 0.5);
         currentLevel = 1;
+        // MOVE_INTERVAL += 20;
         if (levelUp) {
             levelUp = false;
         }
     } else if (score2 < 15) {
         //level 3
         textLevel.textContent = "3";
-        drawHorizontal(ctx, positionObstcale[0].x, positionObstcale[0].y, 20, 1);
-        drawHorizontal(ctx, positionObstcale[1].x, positionObstcale[1].y, 20, 1);
+        drawHorizontal(ctx, positionObstacle[0].x, positionObstacle[0].y, 20, 0.5);
+        drawHorizontal(ctx, positionObstacle[1].x, positionObstacle[1].y, 20, 0.5);
         currentLevel = 2;
         if (!levelUp) {
             levelUp = true;
@@ -256,9 +260,9 @@ function checkLevel(snake, ctx) {
     } else if (score2 < 20) {
         //level 4
         textLevel.textContent = "4";
-        drawHorizontal(ctx, positionObstcale[0].x, positionObstcale[0].y, 20, 1);
-        drawHorizontal(ctx, positionObstcale[1].x, positionObstcale[1].y, 20, 1);
-        drawHorizontal(ctx, positionObstcale[2].x, positionObstcale[2].y, 20, 1);
+        drawHorizontal(ctx, positionObstacle[0].x, positionObstacle[0].y, 20, 0.5);
+        drawHorizontal(ctx, positionObstacle[1].x, positionObstacle[1].y, 20, 0.5);
+        drawHorizontal(ctx, positionObstacle[2].x, positionObstacle[2].y, 20, 0.5);
         currentLevel = 3;
         if (levelUp) {
             levelUp = false;
@@ -267,10 +271,10 @@ function checkLevel(snake, ctx) {
     } else {
         //level 5
         textLevel.textContent = "5";
-        drawHorizontal(ctx, positionObstcale[3].x, positionObstcale[3].y, 1, 40);
-        drawHorizontal(ctx, positionObstcale[4].x, positionObstcale[4].y, 1, 40);
-        drawHorizontal(ctx, positionObstcale[5].x, positionObstcale[5].y, 40, 1);
-        drawHorizontal(ctx, positionObstcale[6].x, positionObstcale[6].y, 40, 1);
+        drawHorizontal(ctx, positionObstacle[3].x, positionObstacle[3].y, 20, 0.5);
+        drawHorizontal(ctx, positionObstacle[4].x, positionObstacle[4].y, 20, 0.5);
+        drawHorizontal(ctx, positionObstacle[5].x, positionObstacle[5].y, 20, 0.5);
+        // drawHorizontal(ctx, positionObstacle[6].x, positionObstacle[6].y, 40, 0.5);
         currentLevel = 4;
         if (!levelUp) {
             levelUp = true;
@@ -330,6 +334,28 @@ function checkCollision(snakes) {
                 }
             }
         }
+
+        // obstacle
+        for (let l = 0; l < currentLevel && currentLevel <= 3; l++) {
+            if ((snakes[i].head.x >= positionObstacle[l].x) && (snakes[i].head.x <= (positionObstacle[l].x + 19)) &&
+                (snakes[i].head.y == positionObstacle[l].y)) {
+                isCollide = true;
+            }
+        }
+        if (currentLevel == 4) {
+            if (((snakes[i].head.y >= positionObstacle[3].y) && (snakes[i].head.y <= (positionObstacle[3].y + 19)) && (snakes[i].head.x == positionObstacle[3].x)) ||
+                ((snakes[i].head.y >= positionObstacle[4].y) && (snakes[i].head.y <= (positionObstacle[4].y + 19)) && (snakes[i].head.x == positionObstacle[4].x))) {
+                isCollide = true;
+            }
+
+        }
+        // if (currentLevel == 5) {
+        //     if (((snakes[i].head.y >= positionObstacle[4].y) && (snakes[i].head.y <= (positionObstacle[4].y + 19)) && (snakes[i].head.x == positionObstacle[4].x)) ||
+        //         ((snakes[i].head.y >= positionObstacle[5].y) && (snakes[i].head.y <= (positionObstacle[5].y + 19)) && (snakes[i].head.x == positionObstacle[5].x))) {
+        //         isCollide = true;
+        //     }
+
+        // }
     }
     if (isCollide) {
         snake = initSnake("purple");
@@ -371,14 +397,14 @@ function move() {
     if (!checkCollision([snake])) {
         setTimeout(function() {
             move(snake);
-        }, MOVE_INTERVAL);
+        }, MOVE_INTERVAL[currentLevel]);
     } else {
         console.log("collide", snake.color);
         if (snake) {
             snake = initSnake("purple");
             setTimeout(function() {
                 move(snake);
-            }, MOVE_INTERVAL);
+            }, MOVE_INTERVAL[currentLevel]);
         }
     }
 }
@@ -412,25 +438,6 @@ document.addEventListener("keydown", function (event) {
         turn(snake, DIRECTION.DOWN);
     }
 
-    if (event.key === "a") {
-        turn(snake2, DIRECTION.LEFT);
-    } else if (event.key === "d") {
-        turn(snake2, DIRECTION.RIGHT);
-    } else if (event.key === "w") {
-        turn(snake2, DIRECTION.UP);
-    } else if (event.key === "s") {
-        turn(snake2, DIRECTION.DOWN);
-    }
-
-    if (event.key === "j") {
-        turn(snake3, DIRECTION.LEFT);
-    } else if (event.key === "l") {
-        turn(snake3, DIRECTION.RIGHT);
-    } else if (event.key === "i") {
-        turn(snake3, DIRECTION.UP);
-    } else if (event.key === "k") {
-        turn(snake3, DIRECTION.DOWN);
-    }
 })
 
 function initGame() {
