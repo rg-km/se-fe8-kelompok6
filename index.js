@@ -134,12 +134,13 @@ function drawScore() {
     let scoreCtx = scoreCanvas.getContext("2d");
 
     scoreCtx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-    scoreCtx.font = "24px Arial";
-    scoreCtx.fillStyle = snake.color
+    scoreCtx.font = "22px Arial";
+    scoreCtx.fillStyle = 'black';
     scoreCtx.fillText("SCORE", scoreCanvas.scrollWidth /4, scoreCanvas.scrollHeight / 3.5);
-    scoreCtx.font = "28px Arial";
+    scoreCtx.font = "24px Arial";
     scoreCtx.fillText(score2, scoreCanvas.scrollWidth /2.2, scoreCanvas.scrollHeight / 1.5);
 }
+
 function isPrime(num) {
     for (let i = 2; i * i <= num; i++)
         if (num % i === 0)
@@ -152,11 +153,11 @@ function drawSpeed(snake){
     let speedCtx = speedCanvas.getContext("2d");
     
     speedCtx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-    speedCtx.font = "24px Arial";
+    speedCtx.font = "22px Arial";
     speedCtx.fillStyle = 'black';
     // speedCtx.textAlign = "start";
     speedCtx.fillText("SPEED", speedCanvas.scrollWidth /3.8, speedCanvas.scrollHeight / 3.5);
-    speedCtx.font = "28px Arial";
+    speedCtx.font = "24px Arial";
     speedCtx.fillText(MOVE_INTERVAL[currentLevel] + " ms", speedCanvas.scrollWidth /4, speedCanvas.scrollHeight / 1.5);
 }
 lifebar.body.push({x: lifebar.head.x , y: lifebar.head.y});
@@ -198,7 +199,7 @@ function draw() {
 }
 
 function drawHorizontal(ctx, x, y, width, height) {
-    ctx.fillStyle = "Black";
+    ctx.fillStyle = "green";
     ctx.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE * width, CELL_SIZE * height);
 }
 
