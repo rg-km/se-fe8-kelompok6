@@ -223,6 +223,8 @@ function eat(snake, apple) {
         score2++;
         snake.body.push({x: snake.head.x, y: snake.head.y});
         lifeIcon.position = initPosition();
+        var audio = new Audio ('assets/eat.wav');
+        audio.play();
     }
     if(snake.head.x == lifeIcon.position.x && snake.head.y == lifeIcon.position.y){
         lifeIcon.position = blankPosition();
@@ -231,6 +233,7 @@ function eat(snake, apple) {
 }
 
 let levelUp = true;
+var counter = 0;
 function checkLevel(snake, ctx) {
     let textLevel = document.getElementById("leveling");
     if (score2 < 5) {
@@ -240,47 +243,67 @@ function checkLevel(snake, ctx) {
 
     } else if (score2 < 10) {
         //level 2
+        if(counter == 0){
+            alert('level 1 complete!');
+            counter = 1;
+        }
         textLevel.textContent = "2";
         drawHorizontal(ctx, positionObstacle[0].x, positionObstacle[0].y, 20, 0.5);
         currentLevel = 1;
+
         // MOVE_INTERVAL += 20;
         if (levelUp) {
             levelUp = false;
         }
     } else if (score2 < 15) {
         //level 3
+        if(counter == 1){
+            alert('level 2 complete!');
+            counter = 2;
+        }
         textLevel.textContent = "3";
         drawHorizontal(ctx, positionObstacle[0].x, positionObstacle[0].y, 20, 0.5);
         drawHorizontal(ctx, positionObstacle[1].x, positionObstacle[1].y, 20, 0.5);
         currentLevel = 2;
+
         if (!levelUp) {
             levelUp = true;
         }
 
     } else if (score2 < 20) {
         //level 4
+        if(counter == 2){
+            alert('level 3 complete!');
+            counter = 3;
+        }
         textLevel.textContent = "4";
         drawHorizontal(ctx, positionObstacle[0].x, positionObstacle[0].y, 20, 0.5);
         drawHorizontal(ctx, positionObstacle[1].x, positionObstacle[1].y, 20, 0.5);
         drawHorizontal(ctx, positionObstacle[2].x, positionObstacle[2].y, 20, 0.5);
         currentLevel = 3;
+
         if (levelUp) {
             levelUp = false;
         }
 
     } else {
         //level 5
+        if(counter == 3){
+            alert('level 4 complete!');
+            counter = 4;
+        }
         textLevel.textContent = "5";
         drawHorizontal(ctx, positionObstacle[3].x, positionObstacle[3].y, 20, 0.5);
         drawHorizontal(ctx, positionObstacle[4].x, positionObstacle[4].y, 20, 0.5);
         drawHorizontal(ctx, positionObstacle[5].x, positionObstacle[5].y, 20, 0.5);
+        lvl = 5;
         // drawHorizontal(ctx, positionObstacle[6].x, positionObstacle[6].y, 40, 0.5);
-        currentLevel = 4;
+
         if (!levelUp) {
             levelUp = true;
         }
     }
-
+    
 }
 
 
@@ -289,7 +312,7 @@ function moveLeft(snake) {
     teleport(snake);
     eat(snake, apple1);
     eat(snake, apple2);
-    console.log(snake.head.y);
+
 
 }
 
@@ -298,7 +321,7 @@ function moveRight(snake) {
     teleport(snake);
     eat(snake, apple1);
     eat(snake, apple2);
-    console.log(snake.head.y);
+  
 
 
 }
@@ -308,7 +331,7 @@ function moveDown(snake) {
     teleport(snake);
     eat(snake, apple1);
     eat(snake, apple2);
-    console.log(snake.head.y);
+  
 
 
 }
@@ -318,7 +341,7 @@ function moveUp(snake) {
     teleport(snake);
     eat(snake, apple1);
     eat(snake, apple2);
-    console.log(snake.head.y);
+
 
 
 }
@@ -443,5 +466,7 @@ document.addEventListener("keydown", function (event) {
 function initGame() {
     move(snake);
 }
+
+
 
 initGame();
