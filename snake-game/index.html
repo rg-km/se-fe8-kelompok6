@@ -1,24 +1,27 @@
 <html>
     <head>
     </head>
+        <link rel="stylesheet" href="style.css">
         <script type="text/javascript" src="index.js"></script>
     <body onload="draw();">
-        <div style="text-align: center;">
-            <h1>Snake Game</h1>
-            <h2>Level <span id="leveling"></span></h2>
-            <canvas id="snakeBoard" width="500" height="500" style="border:1px solid #000000;"></canvas>
-            <img src="assets/apple.png" id="apple" alt="" width="20" height="20" style="display: none;"/>
-            <img src="assets/snake-head.png" id="snake-head" alt="" width="20" height="20" style="display: none;"/>
-            <img src="assets/snake-body.png" id="snake-body" alt="" width="20" height="20" style="display: none;"/>
-            <img src="assets/lifebar.png" id="lifebar" alt="" width="20" height="20" style="display: none;"/>
-            
+        <div class="grid-container">
+        <div style="margin: auto;">
+            <img src="assets/snake.png" height="200" width="200">
+            <h2>Snake Game</h2>
+            <h3 style="border:1px solid #000000; border-radius: 5px; padding: 5px; background-color: rgb(151, 231, 255);">Level <span id="leveling"></span></h3>
+            <div style="text-align: center;">
+                <canvas id="score1Board" width="150" height="60"></canvas>
+                <canvas id="speedBoard" width="150" height="60"></canvas>
+            </div>
         </div>
-        <div style="text-align: center;">
-            <br>
-            
-            <canvas id="score1Board" width="180" height="100" style="border:1px solid #000000; margin-right: 25px; margin-top: 10px;"></canvas>
-            <canvas id="speedBoard" width="180" height="100" style="border:1px solid #000000; "></canvas>
-
+        <div style="margin: auto;">
+            <div style="text-align: center;">
+                <canvas id="snakeBoard" width="500" height="500"></canvas>
+                <img src="assets/apple.png" id="apple" alt="" width="20" height="20" style="display: none;"/>
+                <img src="assets/snake-head.png" id="snake-head" alt="" width="20" height="20" style="display: none;"/>
+                <img src="assets/snake-body.png" id="snake-body" alt="" width="20" height="20" style="display: none;"/>
+                <img src="assets/lifebar.png" id="lifebar" alt="" width="20" height="20" style="display: none;"/>
+            </div>
         </div>
     </body>
 </html>

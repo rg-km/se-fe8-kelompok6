@@ -1,0 +1,31 @@
+body{
+    background-color: rgb(245, 245, 245);
+}
+
+canvas{
+    border:1px solid #000000;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+#snakeBoard{
+    background-color: #cfaa59;
+    border:2px solid #000000;
+}
+
+#speedBoard, #score1Board{
+    color: rgb(49, 49, 49);
+    padding: 5px;
+    background-color: rgb(151, 231, 255);
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+  
+.grid-container > div {
+    text-align: center;
+    align-items: center;
+    font-size: 30px;
+}
