@@ -245,6 +245,8 @@ function checkLevel(snake, ctx) {
         //level 2
         if(counter == 0){
             alert('level 1 complete!');
+            var lvlupAudio = new Audio('assets/levelup.mp3');
+            lvlupAudio.play();
             counter = 1;
         }
         textLevel.textContent = "2";
@@ -259,6 +261,8 @@ function checkLevel(snake, ctx) {
         //level 3
         if(counter == 1){
             alert('level 2 complete!');
+            var lvlupAudio = new Audio('assets/levelup.mp3');
+            lvlupAudio.play();
             counter = 2;
         }
         textLevel.textContent = "3";
@@ -274,6 +278,8 @@ function checkLevel(snake, ctx) {
         //level 4
         if(counter == 2){
             alert('level 3 complete!');
+            var lvlupAudio = new Audio('assets/levelup.mp3');
+            lvlupAudio.play();
             counter = 3;
         }
         textLevel.textContent = "4";
@@ -290,6 +296,8 @@ function checkLevel(snake, ctx) {
         //level 5
         if(counter == 3){
             alert('level 4 complete!');
+            var lvlupAudio = new Audio('assets/levelup.mp3');
+            lvlupAudio.play();
             counter = 4;
         }
         textLevel.textContent = "5";
@@ -354,6 +362,8 @@ function checkCollision(snakes) {
             for (let k = 1; k < snakes[j].body.length; k++) {
                 if (snakes[i].head.x == snakes[j].body[k].x && snakes[i].head.y == snakes[j].body[k].y) {
                     isCollide = true;
+                    var audio = new Audio('assets/crash.mp3');
+                    audio.play();
                 }
             }
         }
@@ -363,12 +373,16 @@ function checkCollision(snakes) {
             if ((snakes[i].head.x >= positionObstacle[l].x) && (snakes[i].head.x <= (positionObstacle[l].x + 19)) &&
                 (snakes[i].head.y == positionObstacle[l].y)) {
                 isCollide = true;
+                var audio = new Audio('assets/crash.mp3');
+                audio.play();
             }
         }
         if (currentLevel == 4) {
             if (((snakes[i].head.y >= positionObstacle[3].y) && (snakes[i].head.y <= (positionObstacle[3].y + 19)) && (snakes[i].head.x == positionObstacle[3].x)) ||
                 ((snakes[i].head.y >= positionObstacle[4].y) && (snakes[i].head.y <= (positionObstacle[4].y + 19)) && (snakes[i].head.x == positionObstacle[4].x))) {
                 isCollide = true;
+                var audio = new Audio('assets/crash.mp3');
+                audio.play();
             }
 
         }
